@@ -20,28 +20,29 @@ function App() {
     setLocalUnit(e.target.value);
   };
 
-  const handleButtonClick = () => {
-    let convertedValue = inputValue;
+  const convertToSquareMeters = (value: number, unit: string): number => {
     switch (unit) {
       case '東京ドーム':
-        convertedValue = inputValue * 46755; // 東京ドームの面積を46755m^2に設定
-        break;
+        return value * 46755; // Tokyo Dome area in square meters
       default:
-        break;
+        return value;
     }
+  };
 
-    let localUnitValue = 0;
+  const getLocalUnitArea = (localUnit: string): number => {
     switch (localUnit) {
       case '地元の図書館':
-        localUnitValue = 500; // 地元の図書館の面積を500m^2と仮定
-        break;
+        return 500; // Local library area in square meters (assumed)
       case '地元の公園':
-        localUnitValue = 10000; // 地元の公園の面積を10000m^2と仮定
-        break;
+        return 10000; // Local park area in square meters (assumed)
       default:
-        break;
+        return 1;
     }
+  };
 
+  const handleButtonClick = () => {
+    const convertedValue = convertToSquareMeters(inputValue, unit);
+    const localUnitValue = getLocalUnitArea(localUnit);
     const result = convertedValue / localUnitValue;
     setDisplayValue(result);
   };
